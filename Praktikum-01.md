@@ -28,7 +28,7 @@ Perbedaan tegangan ini sangat penting karena menentukan bagaimana cip membaca da
 * **Status HIGH (1):** Terjadi saat pin berada di tegangan 3.3V.
 * **Status LOW (0):** Terjadi saat pin berada di tegangan 0V (GND).
 
-> **[!PERINGATAN]:** Jangan pernah memberikan tegangan 5V secara langsung ke pin input ESP8266 (kecuali pin VIN). Pin GPIO ESP8266 tidak mentoleransi tegangan 5V (*not 5V tolerant*). Mengalirkan tegangan 5V ke pin I/O dapat merusak mikrokontroler secara permanen.
+> **[PERINGATAN!]:** Jangan pernah memberikan tegangan 5V secara langsung ke pin input ESP8266 (kecuali pin VIN). Pin GPIO ESP8266 tidak mentoleransi tegangan 5V (*not 5V tolerant*). Mengalirkan tegangan 5V ke pin I/O dapat merusak mikrokontroler secara permanen.
 
 ### **1.3.3 Pemetaan Pin (Pinout Reference)**
 
@@ -55,7 +55,7 @@ Tabel berikut adalah referensi pin yang aman dan direkomendasikan untuk digunaka
 | TX | GPIO1 | Pin TX | OK | HIGH saat *boot*<br>*Output debug* saat *boot*, *boot* gagal jika ditarik LOW |
 | A0 | ADC0 | Input Analog | X | - |
 
-> **[!TIP]:** Selalu prioritaskan penggunaan **D1, D2, D5, D6, atau D7** untuk menyambungkan komponen eksternal guna menghindari masalah gagal *booting*.
+> **[TIP!]:** Selalu prioritaskan penggunaan **D1, D2, D5, D6, atau D7** untuk menyambungkan komponen eksternal guna menghindari masalah gagal *booting*.
 
 ### **1.3.4 Konsep Sinyal Digital dan Resistor *Pull-Down***
 
@@ -233,7 +233,7 @@ Tugas ini harus dikerjakan secara mandiri untuk mengukur kemampuan integrasi dan
     - Tidak ada fenomena *flickering* (lampu berkedip acak atau gagal mati) saat tombol ditekan.
     - Program memiliki baris komentar yang menjelaskan bagaimana logika pelacakan *state* dan *debounce* bekerja.
 
-> **[!IMPORTANT]**
+> **[PENTING!]**
 > **Instruksi Pengumpulan Tugas Praktikum**
 > Seluruh pengerjaan praktikum dan tugas (meliputi *source code* berformat `.ino`, dokumentasi foto/video sirkuit yang berhasil, tangkapan layar *Serial Monitor*, serta laporan praktikum tertulis .PDF) harus dikumpulkan dengan cara melakukan **commit dan push ke repositori GitHub pribadi Anda masing-masing**.
 > 
