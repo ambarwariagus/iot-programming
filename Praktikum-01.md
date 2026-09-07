@@ -2,7 +2,7 @@
 
 ## **1.1 Pengantar**
 
-Internet of Things (IoT) merupakan ekosistem di mana perangkat fisik terhubung ke jaringan internet untuk mengumpulkan dan bertukar data. Otak dari perangkat-perangkat ini adalah mikrokontroler. Pada praktikum ini, kita akan mempelajari fondasi dasar arsitektur perangkat keras dan pemrograman mikrokontroler menggunakan **NodeMCU ESP8266**, sebuah *development board* yang menjadi standar populer di industri IoT. Mahasiswa akan diajak memahami arsitektur dasar, manajemen pin (GPIO), serta konsep pengendalian komponen elektronik sebagai *Input* dan *Output* secara digital.
+Internet of Things (IoT) merupakan ekosistem di mana perangkat fisik terhubung ke jaringan internet untuk mengumpulkan dan bertukar data. Otak dari perangkat-perangkat ini adalah mikrokontroler. Pada Modul ini, kita akan mempelajari fondasi dasar arsitektur perangkat keras dan pemrograman mikrokontroler menggunakan **NodeMCU ESP8266**, sebuah *development board* yang menjadi standar populer di industri IoT. Mahasiswa akan diajak memahami arsitektur dasar, manajemen pin (GPIO), serta konsep pengendalian komponen elektronik sebagai *Input* dan *Output* secara digital.
 
 ## **1.2 Tujuan Pembelajaran**
 
@@ -55,7 +55,7 @@ Tabel berikut adalah referensi pin yang aman dan direkomendasikan untuk digunaka
 | TX | GPIO1 | Pin TX | OK | HIGH saat *boot*<br>*Output debug* saat *boot*, *boot* gagal jika ditarik LOW |
 | A0 | ADC0 | Input Analog | X | - |
 
-> **[TIP!]:** Selalu prioritaskan penggunaan **D1, D2, D5, D6, atau D7** untuk menyambungkan komponen eksternal guna menghindari masalah gagal *booting*.
+> **[TIP!]**: Selalu prioritaskan penggunaan **D1, D2, D5, D6, atau D7** untuk menyambungkan komponen eksternal guna menghindari masalah gagal *booting*.
 
 ### **1.3.4 Konsep Sinyal Digital dan Resistor *Pull-Down***
 
@@ -241,4 +241,4 @@ Tugas ini harus dikerjakan secara mandiri untuk mengukur kemampuan integrasi dan
 
 ## **1.8 Rangkuman**
 
-Pada praktikum ini, kita telah meletakkan fondasi pemrograman *Internet of Things* (IoT) menggunakan NodeMCU ESP8266. Pemahaman terhadap standar tegangan operasi (3.3V) dan pemetaan khusus pada *pinout* (seperti D1 dan D2 yang terhubung ke GPIO 5 dan 4) merupakan prasyarat mutlak untuk mencegah kegagalan operasi. Dengan menguasai konsep dasar *Digital Output* melalui pengendalian LED dan konsep *Digital Input* menggunakan rangkaian resistor *Pull-Down* pada sakelar, mahasiswa telah memiliki batu loncatan yang esensial untuk mengintegrasikan berbagai jenis sensor dan aktuator digital tingkat lanjut yang akan dipelajari pada praktikum berikutnya.
+Pada Modul ini, kita telah meletakkan fondasi pemrograman *Internet of Things* (IoT) menggunakan NodeMCU ESP8266. Pemahaman terhadap standar tegangan operasi (3.3V) dan pemetaan khusus pada *pinout* (seperti D1 dan D2 yang terhubung ke GPIO 5 dan 4) merupakan prasyarat mutlak untuk mencegah kegagalan operasi. Dengan menguasai konsep dasar *Digital Output* melalui pengendalian LED dan konsep *Digital Input* menggunakan rangkaian resistor *Pull-Down* pada sakelar, mahasiswa telah memiliki batu loncatan yang esensial untuk mengintegrasikan berbagai jenis sensor dan aktuator digital tingkat lanjut yang akan dipelajari pada praktikum berikutnya.
