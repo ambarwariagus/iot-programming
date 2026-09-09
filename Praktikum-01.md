@@ -1,4 +1,4 @@
-# **Praktikum 1: Fondasi Arsitektur Internet of Things (IoT) dan Mikrokontroler**
+# **Praktikum 1: Arsitektur Internet of Things dan Mikrokontroler**
 
 ## **1.1 Pengantar**
 
@@ -12,7 +12,27 @@ Internet of Things (IoT) merupakan ekosistem di mana perangkat fisik terhubung k
 
 ## **1.3 Teori Dasar**
 
-### **1.3.1 Pengenalan NodeMCU ESP8266**
+### **1.3.1 Arsitektur Internet of Things (IoT)**
+
+Standar arsitektur IoT yang diakui secara internasional didefinisikan oleh **ITU-T** (*International Telecommunication Union - Telecommunication Standardization Sector*) melalui Rekomendasi **ITU-T Y.4000/Y.2060 (06/2012)** berjudul *"Overview of the Internet of Things"*. Standar ini menetapkan model referensi arsitektur IoT yang terdiri dari **empat lapisan (*layer*)** utama:
+
+| Lapisan | Nama | Fungsi |
+|:---:|---|---|
+| 4 | ***Application Layer*** | Menyediakan layanan dan antarmuka aplikasi kepada pengguna akhir sesuai kebutuhannya (contoh: *smart home*, *smart health*, *smart agriculture*). |
+| 3 | ***Service Support and Application Support Layer*** | Menyediakan layanan generik (seperti pemrosesan dan penyimpanan data) serta layanan spesifik yang dibutuhkan oleh beragam aplikasi IoT. |
+| 2 | ***Network Layer*** | Bertanggung jawab atas transportasi data dan konektivitas jaringan, mencakup jaringan akses (*access network*) dan jaringan inti (*core network*), termasuk teknologi Wi-Fi, seluler, dan *gateway*. |
+| 1 | ***Device Layer*** | Mencakup perangkat fisik (*devices*) dan *gateway* di lapisan terbawah, termasuk sensor, aktuator, dan mikrokontroler yang berinteraksi langsung dengan dunia fisik. |
+
+Selain keempat lapisan tersebut, arsitektur ini juga memiliki dua kapabilitas lintas-lapisan (*cross-layer capabilities*):
+
+* **Kapabilitas Manajemen (*Management Capabilities*):** Mencakup manajemen perangkat, manajemen jaringan, dan manajemen data/model (*traffic/congestion management*).
+* **Kapabilitas Keamanan (*Security Capabilities*):** Mencakup aspek otorisasi, autentikasi, kerahasiaan data (*confidentiality*), integritas data (*integrity*), dan perlindungan privasi di seluruh lapisan.
+
+Pada praktikum ini, kita akan fokus pada **Lapisan 1 (*Device Layer*)**, yaitu memahami dan memprogram mikrokontroler **NodeMCU ESP8266** sebagai *node* perangkat IoT yang mampu membaca sensor (input) dan mengendalikan aktuator (output).
+
+> **Referensi:** ITU-T, *"Overview of the Internet of Things"*, Recommendation ITU-T Y.4000/Y.2060, International Telecommunication Union, Geneva, Juni 2012. Tersedia daring: [https://www.itu.int/rec/T-REC-Y.2060-201206-I](https://www.itu.int/rec/T-REC-Y.2060-201206-I)
+
+### **1.3.2 Pengenalan NodeMCU ESP8266**
 
 ESP8266 merupakan *System on a Chip* (SoC) mikrokontroler berbiaya rendah yang dirancang oleh Espressif Systems. Fitur utamanya adalah kemampuannya menyediakan konektivitas Wi-Fi terintegrasi dan tumpukan (*stack*) protokol TCP/IP penuh, menjadikannya andalan utama untuk pembuatan perangkat *Internet of Things* (IoT).
 
@@ -20,7 +40,7 @@ ESP8266 merupakan *System on a Chip* (SoC) mikrokontroler berbiaya rendah yang d
 
 **NodeMCU ESP8266 (ESP-12E/ESP-12F)** adalah papan pengembangan (*development board*) yang mempermudah penggunaan chip ESP8266. Papan ini mengintegrasikan regulator tegangan 3.3V dan chip USB-to-Serial (seperti CP2102 atau CH340). Hal ini memungkinkan *board* diprogram secara langsung melalui kabel USB tanpa memerlukan *programmer* eksternal tambahan.
 
-### **1.3.2 Standar Tegangan Operasi 3.3V**
+### **1.3.3 Standar Tegangan Operasi 3.3V**
 
 Berbeda dengan mikrokontroler tradisional (seperti Arduino Uno) yang menggunakan tegangan 5V, NodeMCU ESP8266 beroperasi penuh pada **tegangan 3.3V**. 
 Perbedaan tegangan ini sangat penting karena menentukan bagaimana cip membaca dan mengirimkan sinyal digital (*logic level*):
@@ -30,7 +50,7 @@ Perbedaan tegangan ini sangat penting karena menentukan bagaimana cip membaca da
 
 > **[PERINGATAN!]:** Jangan pernah memberikan tegangan 5V secara langsung ke pin input ESP8266 (kecuali pin VIN). Pin GPIO ESP8266 tidak mentoleransi tegangan 5V (*not 5V tolerant*). Mengalirkan tegangan 5V ke pin I/O dapat merusak mikrokontroler secara permanen.
 
-### **1.3.3 Pemetaan Pin (Pinout Reference)**
+### **1.3.4 Pemetaan Pin (Pinout Reference)**
 
 Kesalahan paling umum saat memprogram NodeMCU adalah asumsi penomoran pin. **Label *silkscreen* (tulisan fisik di papan)** seperti D1 dan D2, nilainya tidak sama dengan **nomor GPIO (General Purpose Input/Output)** pada struktur cip fisik yang harus dipanggil di dalam kode program.
 
@@ -57,7 +77,7 @@ Tabel berikut adalah referensi pin yang aman dan direkomendasikan untuk digunaka
 
 > **[TIP!]**: Selalu prioritaskan penggunaan **D1, D2, D5, D6, atau D7** untuk menyambungkan komponen eksternal guna menghindari masalah gagal *booting*.
 
-### **1.3.4 Konsep Sinyal Digital dan Resistor *Pull-Down***
+### **1.3.5 Konsep Sinyal Digital dan Resistor *Pull-Down***
 
 Dalam mikrokontroler, **Sinyal Digital** berarti pin hanya dapat membaca atau mengeluarkan dua keadaan mutlak: **HIGH (1)** atau **LOW (0)**.
 - Sebagai **Output**, pin mengalirkan tegangan keluar (misalnya menyalakan LED).
@@ -209,7 +229,7 @@ void loop() {
 
 Kerjakan latihan berikut untuk menguji pemahaman Anda. Jelaskan hasilnya di dalam laporan!
 
-*   **Latihan 1 (Pemahaman Logika Pin):** Berdasarkan tabel Referensi Pinout di subbab 1.3.3, jelaskan apa yang mungkin terjadi jika Anda menggunakan logika rangkaian dari Praktikum 2 (Active-High / *pull-down*), namun menyambungkan tombol tersebut ke pin **D8 (GPIO 15)**, lalu menekan tombol tersebut *tepat* pada detik di mana NodeMCU baru diberi daya?
+*   **Latihan 1 (Pemahaman Logika Pin):** Berdasarkan tabel Referensi Pinout di subbab 1.3.4, jelaskan apa yang mungkin terjadi jika Anda menggunakan logika rangkaian dari Praktikum 2 (Active-High / *pull-down*), namun menyambungkan tombol tersebut ke pin **D8 (GPIO 15)**, lalu menekan tombol tersebut *tepat* pada detik di mana NodeMCU baru diberi daya?
 *   **Latihan 2 (Implementasi Kode):** Modifikasi kode pada Praktikum 1 agar LED berkedip secara *tidak simetris*, yaitu menyala sangat cepat selama 200 ms, kemudian mati agak lama selama 800 ms. Tuliskan dua baris fungsi `delay()` yang harus Anda ubah.
 *   **Latihan 3 (Analisis Sirkuit):** Berdasarkan hukum aliran arus listrik searah, apa yang terjadi jika pada Praktikum 1 Anda memasang kaki LED secara terbalik (Anoda ke GND, Katoda ke D1)? Apakah program akan mengalami *error* kompilasi? Mengapa LED tidak menyala?
 *   **Latihan 4 (Pengembangan Algoritma):** Ubah blok kondisi `if-else` pada Praktikum 2 sehingga perilakunya terbalik: "Saat tombol TIDAK ditekan, LED **menyala**. Saat tombol DITEKAN, LED justru **mati**."
