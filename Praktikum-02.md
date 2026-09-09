@@ -52,6 +52,8 @@ Alih-alih mengirimkan sinyal analog, cip internal tersebut mengonversi nilai suh
 
 ![Relay Module](images/relay-module.png)
 
+![Relay Module 2](images/relay-module-2.png)
+
 Modul *relay* yang digunakan dalam praktikum umumnya memiliki cip **Optocoupler**. Cip ini bertugas memisahkan / mengisolasi sirkuit tegangan rendah (NodeMCU) dari tegangan tinggi secara optik (menggunakan cahaya inframerah internal). Isolasi optik ini sangat penting untuk mencegah *spike* (lonjakan arus balik) yang bisa merusak mikrokontroler.
 
 ## **2.4 Persiapan Praktikum**
