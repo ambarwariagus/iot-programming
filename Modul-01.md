@@ -1,4 +1,4 @@
-# **Praktikum 1: Arsitektur Internet of Things dan Mikrokontroler**
+# **Modul 1: Arsitektur Internet of Things dan Mikrokontroler**
 
 ## **1.1 Pengantar**
 
