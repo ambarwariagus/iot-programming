@@ -1,8 +1,8 @@
-# **Praktikum Bab 3: Jaringan Nirkabel dan Komunikasi HTTP**
+# **Praktikum 3: Jaringan Nirkabel dan Komunikasi HTTP**
 
 ## **3.1 Pengantar**
 
-Pada Bab 1 dan Bab 2, kita telah mendalami cara mengontrol perangkat keras dasar dan mengambil keputusan secara lokal (*Edge Computing*). Kini, kita akan membuka potensi utama dari *Internet of Things* (IoT), yaitu "Internet" itu sendiri. Pada praktikum ini, mahasiswa akan mempelajari cara menghubungkan NodeMCU ESP8266 ke jaringan Wi-Fi lokal, lalu menjadikannya sebagai *Web Server* yang mampu menyajikan antarmuka halaman HTML, maupun sebagai *HTTP Client* yang secara aktif mengirim perintah ke perangkat (*server*) lain. Kemampuan ini menjadi landasan arsitektur pertukaran data cerdas antar perangkat.
+Pada Modul 1 dan Modul 2, kita telah mendalami cara mengontrol perangkat keras dasar dan mengambil keputusan secara lokal (*Edge Computing*). Kini, kita akan membuka potensi utama dari *Internet of Things* (IoT), yaitu "Internet" itu sendiri. Pada praktikum ini, mahasiswa akan mempelajari cara menghubungkan NodeMCU ESP8266 ke jaringan Wi-Fi lokal, lalu menjadikannya sebagai *Web Server* yang mampu menyajikan antarmuka halaman HTML, maupun sebagai *HTTP Client* yang secara aktif mengirim perintah ke perangkat (*server*) lain. Kemampuan ini menjadi landasan arsitektur pertukaran data cerdas antar perangkat.
 
 ## **3.2 Tujuan Pembelajaran**
 
