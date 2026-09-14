@@ -1,4 +1,4 @@
-# **Praktikum 2: Antarmuka Sensor dan Sistem Kendali Dasar**
+# **Modul 2: Antarmuka Sensor dan Sistem Kendali Dasar**
 
 ## **2.1 Pengantar**
 
