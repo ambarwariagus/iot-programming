@@ -120,6 +120,15 @@ Sebelum memprogram, instal *board package* ESP8266 pada perangkat lunak Arduino 
 6. Konfigurasi parameter *board* Anda pada menu **Tools**:
    - **Board:** Pilih `NodeMCU 1.0 (ESP-12E Module)`.
    - **Port:** Pilih *port COM* yang muncul saat NodeMCU dihubungkan ke laptop via USB.
+7. **Instalasi Driver USB-to-UART (Jika Port COM Belum Muncul):**  
+   Jika opsi *Port COM* tidak muncul atau tidak terbaca di Arduino IDE saat NodeMCU ditancapkan ke laptop, Anda perlu menginstal *driver* chip komunikasi serial (CP2102):
+   - Kunjungi laman resmi [Silicon Labs USB to UART Bridge VCP Drivers](https://www.silabs.com/software-and-tools/usb-to-uart-bridge-vcp-drivers?tab=downloads).
+   - Unduh berkas installer [CP210x Windows Drivers](https://www.silabs.com/documents/public/software/CP210x_Windows_Drivers.zip).
+   - **Tutup (*close*) aplikasi Arduino IDE terlebih dahulu** sebelum memulai instalasi driver.
+   - Ekstrak berkas `.zip` tersebut, jalankan berkas instalasi (misalnya `CP210xVCPInstaller_x64.exe` untuk sistem operasi Windows 64-bit), dan ikuti petunjuknya hingga selesai.
+   - Pasang kembali kabel USB NodeMCU ke laptop, lalu buka kembali aplikasi Arduino IDE untuk mengecek *Port COM* yang telah terdeteksi.
+
+
 
 ## **1.5 Praktikum**
 
