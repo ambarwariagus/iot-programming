@@ -1,4 +1,4 @@
-# **Praktikum 3: Jaringan Nirkabel dan Komunikasi HTTP**
+# **Modul 3: Jaringan Nirkabel dan Komunikasi HTTP**
 
 ## **3.1 Pengantar**
 
