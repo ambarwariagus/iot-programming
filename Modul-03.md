@@ -257,11 +257,11 @@ Anda akan bertindak sebagai *Full-Stack IoT Developer* untuk memutakhirkan kapab
     - Nilai suhu di *browser* otomatis berganti seiring suhu ruangan tanpa perlu mengeklik panah *refresh browser* secara manual.
     - Jawaban analisis mengenai kelemahan protokol HTTP GET statis tertuang jelas di dokumentasi tugas.
 
-> **[!IMPORTANT]**
+> **[PENTING!]**
 > **Instruksi Pengumpulan Tugas Praktikum**
 > Seluruh pengerjaan praktikum dan tugas (meliputi *source code* `.ino` Web Server termodifikasi, tangkapan layar/rekaman UI *browser* yang membuktikan *Auto-Refresh*, serta laporan analisis arsitektur) harus dikumpulkan dengan cara melakukan **commit dan push ke repositori GitHub pribadi Anda masing-masing**.
 > 
-> Tautkan/kumpulkan *URL repositori GitHub* Anda pada sistem manajemen pembelajaran (LMS) kampus sebagai bukti penyelesaian bab ini.
+> Tautkan/kumpulkan *URL repositori GitHub* Anda pada sistem manajemen pembelajaran (LMS) kampus sebagai bukti penyelesaian modul ini.
 
 ## **3.8 Rangkuman**
 
