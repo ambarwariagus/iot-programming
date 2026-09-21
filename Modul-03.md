@@ -28,7 +28,7 @@ Dalam dunia web, komunikasi data dikendalikan oleh protokol **HTTP (HyperText Tr
 * **Server:** Perangkat penyedia layanan. Ia mendengarkan (*listen*) secara pasif pada *port* 80. Ketika ada permintaan masuk, ia memprosesnya lalu membalas dengan dokumen HTML atau status *text*.  
 * **Client:** Perangkat peminta layanan. Ia bertugas proaktif menghubungi *server* pada alamat IP (*IP Address*) atau tautan tertentu.
 
-**HTTP GET** adalah metode komunikasi HTTP paling dasar, yang digunakan *Client* untuk meminta data dari server. Di ekosistem IoT, metode GET juga secara kreatif dimanfaatkan sebagai *trigger* (pemicu) aksi mekanis. Caranya adalah dengan memprogram *Client* untuk mengakses *URL/Endpoint* khusus (*API*) seperti `http://192.168.1.10/relay/on`, yang akan diterjemahkan oleh *Server* sebagai perintah eksekusi untuk menghidupkan perangkat keras.
+**HTTP GET** adalah metode komunikasi HTTP paling dasar, yang digunakan *Client* untuk meminta data dari server. Di ekosistem IoT, metode GET juga secara kreatif dimanfaatkan sebagai *trigger* (pemicu) aksi aktuator. Caranya adalah dengan memprogram *Client* untuk mengakses *URL/Endpoint* khusus (*API*) seperti `http://192.168.1.10/relay/on`, yang akan diterjemahkan oleh *Server* sebagai perintah eksekusi untuk menghidupkan perangkat keras (seperti LED).
 
 ## **3.4 Persiapan Praktikum**
 
@@ -41,7 +41,8 @@ Pastikan komponen berikut tersedia di meja Anda:
 * Sensor Suhu & Kelembapan (DHT11 atau DHT22) (1 buah)  
 * Sensor LDR (1 buah)  
 * Resistor 10k Ohm (1 buah, untuk pembagi tegangan LDR)  
-* Modul Relay 1-Channel 5V (1 buah)  
+* LED 5mm (1 buah)  
+* Resistor 220 Ohm (1 buah, untuk pembatas arus LED)  
 * Kabel *Jumper Male-to-Male* dan *Male-to-Female* (secukupnya)
 
 ### **3.4.2 Persiapan Perangkat Lunak & Jaringan**
@@ -54,11 +55,11 @@ Pastikan komponen berikut tersedia di meja Anda:
 
 ### **3.5.1 Praktikum 1: NodeMCU sebagai *Web Server* (Menyajikan HTML)**
 
-Skenario: Anda merakit NodeMCU sebagai server pintar. Modul ini membaca sensor DHT dan menampilkan suhunya di sebuah halaman web (UI), sekaligus menyediakan tombol di web tersebut untuk menghidupkan/mematikan alat via Modul Relay.
+Skenario: Anda merakit NodeMCU sebagai server pintar. Modul ini membaca sensor DHT dan menampilkan suhunya di sebuah halaman web (UI), sekaligus menyediakan tombol di web tersebut untuk menghidupkan/mematikan lampu LED.
 
 **Langkah Kerja Rangkaian:**
 1. Hubungkan pin **DATA / OUT / S** DHT ke pin **D4 (GPIO 2)**. (Pastikan VCC DHT ke 3V3, GND ke GND). 
-2. Hubungkan pin **IN / Signal** Relay ke pin **D6 (GPIO 12)**. (Pastikan VCC Relay ke VIN/VU NodeMCU, GND ke GND).
+2. Hubungkan kaki **Anoda** (kaki panjang) LED ke pin **D6 (GPIO 12)**. Hubungkan kaki **Katoda** (kaki pendek) LED ke salah satu kaki **Resistor 220 Ohm**, lalu hubungkan kaki resistor lainnya ke pin **GND** NodeMCU. *(Catatan: LED ini dikendalikan oleh pin D6 / GPIO 12 yang pada kode program didefinisikan sebagai `relayPin`).*
 
 **Langkah Kerja Pemrograman:**
 1. Buat berkas baru (*New Sketch*). Tuliskan kode program di bawah. **Jangan lupa mengganti variabel `ssid` dan `password`!**
@@ -154,17 +155,17 @@ void loop() {
 ```
 
 3. **Upload** kode tersebut. Buka **Serial Monitor**, dan catat alamat IP yang didapat (contoh: `192.168.43.15`).
-4. Hubungkan Laptop/HP Anda ke Wi-Fi yang sama, buka *browser* (Chrome/Safari), lalu ketikkan alamat IP tersebut. Klik tombol ON dan OFF di layar untuk mendengarkan *Relay* berbunyi *cetek*.
+4. Hubungkan Laptop/HP Anda ke Wi-Fi yang sama, buka *browser* (Chrome/Safari), lalu ketikkan alamat IP tersebut. Klik tombol ON dan OFF di layar untuk melihat LED menyala dan padam.
 
 **Penjelasan Singkat Kode:**
 * `ESP8266WebServer server(80);`: Menginisialisasi *library Server* agar terus mendengarkan panggilan di jalur lalu lintas standar web (*Port 80*).
 * `html.replace("%TEMPERATURE%", String(t));`: Fitur manipulasi teks (*String*). Perintah ini secara cerdas akan menyapu dokumen HTML, mencari teks *placeholder* `%TEMPERATURE%`, dan menggantinya dengan variabel angka suhu yang didapat dari sensor aktual sebelum dikirim ke layar pengunjung. Inilah esensi dari halaman *web* dinamis.
-* `server.on("/relay/on", handleRelayOn);`: Fungsi *Routing*. Jika ada klien mengunjungi tautan URL berakhiran `/relay/on`, server akan menjalankan aksi mengubah *state* Relay, lalu me- *redirect* layar pengunjung kembali ke halaman depan (`Location: /`) via kode `303`.
+* `server.on("/relay/on", handleRelayOn);`: Fungsi *Routing*. Jika ada klien mengunjungi tautan URL berakhiran `/relay/on`, server akan menjalankan aksi mengubah *state* LED (menyalakan/mematikan output), lalu me-*redirect* layar pengunjung kembali ke halaman depan (`Location: /`) via kode `303`.
 * `server.handleClient();`: Berada di dalam `loop()` untuk terus-menerus mengecek apakah ada permintaan pengunjung yang datang setiap milidetiknya.
 
 ### **3.5.2 Praktikum 2: NodeMCU sebagai *HTTP Client* (Meminta Layanan)**
 
-Skenario: Anda sekarang memprogram NodeMCU kedua (atau meminta teman kelompok di sebelah Anda) untuk menjadi *Client*. Perangkat Klien ini dipasangi LDR. Jika LDR tertutup kegelapan, ia akan mengirim sinyal HTTP secara jarak jauh (via jaringan Wi-Fi) untuk menyalakan Relay di *Server* milik teman Anda (Praktikum 1). 
+Skenario: Anda sekarang memprogram NodeMCU kedua (atau meminta teman kelompok di sebelah Anda) untuk menjadi *Client*. Perangkat Klien ini dipasangi LDR. Jika LDR tertutup kegelapan, ia akan mengirim sinyal HTTP secara jarak jauh (via jaringan Wi-Fi) untuk menyalakan LED di *Server* milik teman Anda (Praktikum 1). 
 
 **Langkah Kerja Rangkaian:**
 1. Rangkai sensor **LDR** dan **Resistor 10k Ohm** sebagai pembagi tegangan (seperti di Modul 2) lalu hubungkan jalur sinyalnya ke pin **A0**.
@@ -212,7 +213,7 @@ void loop() {
 }
 ```
 
-3. **Upload** kode tersebut, dan buka Serial Monitor. Saat LDR Anda di *Client* ditutup tangan hingga gelap, perhatikan *Relay* di NodeMCU *Server* milik teman Anda pasti akan menyala!
+3. **Upload** kode tersebut, dan buka Serial Monitor. Saat LDR Anda di *Client* ditutup tangan hingga gelap, perhatikan **LED** di NodeMCU *Server* milik teman Anda pasti akan menyala!
 
 **Penjelasan Singkat Kode:**
 * `WiFiClient client;` dan `HTTPClient http;`: Kelas pemanggil untuk memulai eksekusi permintaan *client* jarak jauh (mirip fungsi aplikasi *browser* di laptop).
@@ -227,10 +228,10 @@ Kerjakan soal berikut secara mandiri untuk menguji penalaran dan modifikasi jari
 *   **Latihan 1 (Pemahaman Jaringan):** Berdasarkan wawasan dari subbab 3.3.1, sebutkan secara logis mengapa kita menggunakan mode jaringan *Station (STA)* pada kedua praktikum di atas, dan bukan mode *Access Point (AP)*?
 *   **Latihan 2 (Modifikasi Antarmuka & Telemetri):** Pada Praktikum 1, tampilan web saat ini baru menyajikan data suhu ruangan dan masih menggunakan dua tombol terpisah (ON dan OFF). Lakukan dua modifikasi berikut pada *Web Server*:
     1. **Menampilkan Kelembapan:** Tambahkan pembacaan kelembapan menggunakan fungsi `dht.readHumidity()`. Sisipkan placeholder `%HUMIDITY%` pada kerangka HTML di dalam tag `<div class="sensor-box">` (contoh: `<p>Kelembapan: <strong>%HUMIDITY%</strong> %</p>`), lalu perbarui fungsi `handleRoot()` menggunakan `html.replace("%HUMIDITY%", ...)` agar nilai kelembapan muncul di halaman *web*.
-    2. **Tombol Dinamis Tunggal (*Toggle Button*):** Ubah antarmuka agar **hanya menggunakan 1 buah tombol tunggal** yang statusnya adaptif mengikuti kondisi *Relay* saat ini:
-       * Jika Relay sedang **OFF**, tombol menampilkan tulisan **"NYALAKAN (ON)"** (misal: warna hijau/biru) dan mengarahkan aksi ke `/relay/on`.
-       * Jika Relay sedang **ON**, tombol otomatis berubah menjadi tulisan **"MATIKAN (OFF)"** (warna merah) dan mengarahkan aksi ke `/relay/off`.  
-       *(Petunjuk: Anda dapat menyematkan placeholder baru di HTML seperti `%RELAY_BUTTON%`, lalu di fungsi `handleRoot()`, periksa status pin relay menggunakan `digitalRead(relayPin)` sebelum mengganti placeholder tersebut dengan elemen tautan tombol yang sesuai).*  
+    2. **Tombol Dinamis Tunggal (*Toggle Button*):** Ubah antarmuka agar **hanya menggunakan 1 buah tombol tunggal** yang statusnya adaptif mengikuti kondisi **LED** saat ini:
+       * Jika LED sedang **OFF**, tombol menampilkan tulisan **"NYALAKAN (ON)"** (misal: warna hijau/biru) dan mengarahkan aksi ke `/relay/on`.
+       * Jika LED sedang **ON**, tombol otomatis berubah menjadi tulisan **"MATIKAN (OFF)"** (warna merah) dan mengarahkan aksi ke `/relay/off`.  
+       *(Petunjuk: Anda dapat menyematkan placeholder baru di HTML seperti `%RELAY_BUTTON%`, lalu di fungsi `handleRoot()`, periksa status pin relay/LED menggunakan `digitalRead(relayPin)` sebelum mengganti placeholder tersebut dengan elemen tautan tombol yang sesuai).*  
     Tuliskan potongan baris kode HTML dan fungsi `handleRoot()` yang Anda ubah!
 *   **Latihan 3 (Analisis Kode Client):** Pada Praktikum 2, *Serial Monitor Client* mencetak `HTTP Response code`. Analisislah apa yang akan dicetak oleh *Serial Monitor* Anda jika ternyata NodeMCU *Server* teman Anda mendadak kehilangan daya (*offline*)? (Silakan cabut daya Server dan lihat hasil erornya).
 *   **Latihan 4 (Pengembangan Algoritma):** Anda ingin mendesain Klien Pendeteksi Suhu. Modifikasi *conditional block* `if` di Praktikum 2 sehingga *Client* mengirim permintaan (GET Request) **HANYA JIKA** sensor DHT membaca suhu melebihi 35 Celcius (bukan menggunakan LDR). Tulis baris algoritmanya.
@@ -240,21 +241,21 @@ Kerjakan soal berikut secara mandiri untuk menguji penalaran dan modifikasi jari
 Antarmuka (*User Interface*) IoT tidak boleh statis. Saat ini, *Web Server* kita tidak mampu memperbarui informasi suhunya secara otomatis ke layar pengunjung tanpa diperintah. Kita harus menyelesaikannya.
 
 **Skenario Proyek (*Web Dashboard*):**
-Anda akan bertindak sebagai *Full-Stack IoT Developer* untuk memutakhirkan kapabilitas *Web Server* pada Praktikum 1, sembari mengevaluasi limitasi arsitektur tradisional HTTP.
+Anda akan bertindak sebagai *Full-Stack IoT Developer* untuk memutakhirkan kapabilitas *Web Server* pada **Latihan 2**, sembari mengevaluasi limitasi arsitektur tradisional HTTP.
 
 *   **Tujuan:** Mampu memanipulasi struktur kerangka HTML mentah yang tersimpan di memori NodeMCU untuk mencapai interaktivitas tampilan otomatis (*Auto-Refresh*).
 *   **Tingkat Kesulitan:** Menengah
 *   **Instruksi:**
-    1. Lakukan modifikasi kode hanya pada sisi **NodeMCU Server (Praktikum 1)**.
+    1. Lakukan modifikasi kode hanya pada sisi **NodeMCU Server (Latihan 2)**.
     2. Modifikasi variabel Raw Literal `index_html`. Sisipkan perintah *Meta Refresh HTML* (sebuah Tag standar web kuno namun ampuh) persis di dalam cakupan *tag* `<head>` untuk memaksa *browser* memuat ulang halaman secara sekuensial setiap 5 detik.
     3. *Hint (Petunjuk):* Sintaks standar yang harus disisipkan adalah `<meta http-equiv="refresh" content="5">`.
-    4. Setelah selesai, buka *browser*, dan diamati layarnya. Biarkan selama 20 detik tanpa menyentuh *mouse/keyboard*.
+    4. Setelah selesai, buka *browser*, dan amati layarnya. Biarkan selama 20 detik tanpa menyentuh *mouse/keyboard*.
 *   **Instruksi Analisis Arsitektur:**
-    1. Setelah Auto-Refresh berjalan, cobalah tekan tombol *Relay ON / OFF* dari *browser*.
+    1. Setelah Auto-Refresh berjalan, cobalah tekan tombol *ON / OFF* (kendali LED) dari *browser*.
     2. Apa kelemahan visual/interaksi (*flickering*) yang Anda alami saat menggunakan metode *Meta Refresh* HTTP konvensional seperti ini untuk sistem yang mengklaim diri sebagai *Real-Time Dashboard*? Tulis evaluasi logis Anda di Laporan Praktikum (Anda bisa membahas masalah *bandwidth*, layar berkedip putih, atau potensi bentrokan jika Anda mengeklik tepat di detik ke-5).
 
 *   **Kriteria Keberhasilan:**
-    - Nilai suhu di *browser* otomatis berganti seiring suhu ruangan tanpa perlu mengeklik panah *refresh browser* secara manual.
+    - Nilai suhu dan kelembapan di *browser* otomatis berganti seiring kondisi lingkungan tanpa perlu mengeklik tombol *refresh* di *browser*.
     - Jawaban analisis mengenai kelemahan protokol HTTP GET statis tertuang jelas di dokumentasi tugas.
 
 > **[PENTING!]**
